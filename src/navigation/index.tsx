@@ -12,7 +12,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 const AppNavigator = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator id="root-stack">
         <Stack.Screen
           name="Todos"
           component={TodoListScreen}
