@@ -34,10 +34,14 @@ const todoSlice = createSlice({
         todo => todo.id !== action.payload
       );
     },
+
+    rehydrateTodos(state, action: PayloadAction<Todo[]>) {
+      state.todos = action.payload;
+    },
   },
 });
 
-export const { addTodo, deleteTodo } = todoSlice.actions;
+export const { addTodo, deleteTodo, rehydrateTodos } = todoSlice.actions;
 
 /**
  * Default Reducer Export
