@@ -1,30 +1,83 @@
 import React, { useEffect, useState } from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, Button, Text, Platform } from 'react-native';
 import { authenticateUser } from './biometric.service';
+import * as LocalAuthentication from 'expo-local-authentication';
+import * as IntentLauncher from 'expo-intent-launcher';
+import { AppState } from 'react-native';
+import { SecurityLevel } from 'expo-local-authentication';
 
-interface Props {
-  children: React.ReactNode;
-}
-
-/**
- * Blocks app access until user authenticates
- */
-const AppAuthGate = ({ children }: Props) => {
+const AppAuthGate = ({ children }: any) => {
   const [authenticated, setAuthenticated] = useState(false);
+  const [secureLock, setSecureLock] = useState(true);
+
+  const verifySecurity = async () => {
+    const level =
+        await LocalAuthentication.getEnrolledLevelAsync();
+
+    /**
+     * Device has NO secure lock
+     */
+    if (level === SecurityLevel.NONE) {
+        setSecureLock(false);
+        return;
+    }
+    
+    setSecureLock(true);    
+  
+    const success = await authenticateUser();
+  
+    if (success) {
+      setAuthenticated(true);
+    }
+  };
 
   useEffect(() => {
-    const verify = async () => {
-      const success = await authenticateUser();
-
-      if (success) {
-        setAuthenticated(true);
-      } else {
-        verify(); // retry until success
+    verifySecurity();
+  
+    const subscription = AppState.addEventListener(
+      'change',
+      state => {
+        if (state === 'active') {
+          verifySecurity();
+        }
       }
+    );
+  
+    return () => {
+      subscription.remove();
     };
-
-    verify();
   }, []);
+
+  /**
+   * Device has NO lock configured
+   */
+  if (!secureLock) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: 20,
+        }}
+      >
+        <Text style={{ marginBottom: 20 }}>
+          Please set a device PIN / Pattern to use this app.
+        </Text>
+
+        <Button
+          title="Go to Security Settings"
+          onPress={() => {
+            if (Platform.OS === 'android') {
+              IntentLauncher.startActivityAsync(
+                IntentLauncher.ActivityAction.SECURITY_SETTINGS
+              );
+            }
+          }}
+        />
+      </View>
+    );
+  }
 
   if (!authenticated) {
     return (
