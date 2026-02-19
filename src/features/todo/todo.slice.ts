@@ -38,10 +38,23 @@ const todoSlice = createSlice({
     rehydrateTodos(state, action: PayloadAction<Todo[]>) {
       state.todos = action.payload;
     },
+
+    updateTodo(
+      state,
+      action: PayloadAction<{ id: string; title: string }>
+    ) {
+      const index = state.todos.findIndex(
+        todo => todo.id === action.payload.id
+      );
+    
+      if (index !== -1) {
+        state.todos[index].title = action.payload.title;
+      }
+    },
   },
 });
 
-export const { addTodo, deleteTodo, rehydrateTodos } = todoSlice.actions;
+export const { addTodo, deleteTodo, updateTodo, rehydrateTodos } = todoSlice.actions;
 
 /**
  * Default Reducer Export

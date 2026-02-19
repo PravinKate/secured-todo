@@ -7,7 +7,7 @@ import {
   FlatList,
 } from 'react-native';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux.hooks';
-import { addTodoSecure, deleteTodoSecure } from './todo.service';
+import { addTodoSecure, deleteTodoSecure, updateTodoSecure } from './todo.service';
 
 /**
  * Dumb UI Component
@@ -19,9 +19,19 @@ const TodoListScreen = () => {
   const dispatch = useAppDispatch();
   const todos = useAppSelector(state => state.todo.todos);
 
+  const [editingId, setEditingId] = useState<string | null>(null);
+
+
   const handleAdd = () => {
     if (!title) return;
-    dispatch(addTodoSecure(title));
+  
+    if (editingId) {
+      dispatch(updateTodoSecure(editingId, title));
+      setEditingId(null);
+    } else {
+      dispatch(addTodoSecure(title));
+    }
+  
     setTitle('');
   };
 
@@ -56,10 +66,19 @@ const TodoListScreen = () => {
             }}
           >
             <Text>{item.title}</Text>
-            <Button
-              title="Delete"
-              onPress={() => handleDelete(item.id)}
-            />
+            <View style={{ flexDirection: 'row' }}>
+              <Button
+                title="Edit"
+                onPress={() => {
+                  setTitle(item.title);
+                  setEditingId(item.id);
+                }}
+              />
+              <Button
+                title="Delete"
+                onPress={() => handleDelete(item.id)}
+              />
+            </View>
           </View>
         )}
       />

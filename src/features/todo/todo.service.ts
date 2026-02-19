@@ -1,5 +1,5 @@
 import { AppDispatch } from '../../app/store';
-import { addTodo, deleteTodo } from './todo.slice';
+import { addTodo, deleteTodo, updateTodo } from './todo.slice';
 import { withAuthGuard } from '../../core/guard/mutation.guard';
 
 /**
@@ -28,3 +28,14 @@ export const deleteTodoSecure =
       dispatch(deleteTodo(id));
     });
   };
+  
+/**
+ * Auth Protected Update Todo
+ */
+export const updateTodoSecure =
+  (id: string, title: string) =>
+  async (dispatch: AppDispatch) => {
+    await withAuthGuard(() => {
+      dispatch(updateTodo({ id, title }));
+    });
+  };  
