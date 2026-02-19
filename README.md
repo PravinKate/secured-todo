@@ -90,8 +90,11 @@ Auth-protected mutation service
 | jest-expo                 | Unit testing                |
 
 🚀 Running the Project
+
 Install dependencies: **npm install**
+
 Run Android: **npx expo start**
+
 Run Tests: **npm test**
 
 📌 Notes
