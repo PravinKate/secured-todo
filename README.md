@@ -21,6 +21,8 @@ This approach ensures enterprise-grade mutation protection.
 
 🧱 Architecture
 The application follows a Feature-First Modular Architecture with clear separation of concerns:
+
+```text
 src
  ┣ app (Redux Store)
  ┣ core
@@ -35,6 +37,7 @@ src
  ┃    ┗ screen
  ┣ navigation
  ┗ hooks
+```
 
 | Layer   | Responsibility               |
 | ------- | ---------------------------- |
