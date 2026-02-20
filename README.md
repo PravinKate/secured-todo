@@ -99,3 +99,8 @@ Run Tests: **npm test**
 
 📌 Notes
 Device-level authentication supports both biometric verification and device credentials fallback, ensuring compatibility across devices without biometric enrollment.
+
+**Screenshot**: 
+
+<img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/f8ef5724-8431-412e-85be-4567c8a99d58" />
+
