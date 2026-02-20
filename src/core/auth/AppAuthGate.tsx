@@ -1,48 +1,49 @@
-import React, { useEffect, useState } from 'react';
-import { View, ActivityIndicator, Button, Text, Platform } from 'react-native';
-import { authenticateUser } from './biometric.service';
-import * as LocalAuthentication from 'expo-local-authentication';
-import * as IntentLauncher from 'expo-intent-launcher';
-import { AppState } from 'react-native';
-import { SecurityLevel } from 'expo-local-authentication';
+import React, { useEffect, useState } from "react";
+import { View, ActivityIndicator, Button, Text, Platform } from "react-native";
+import { authenticateUser } from "./biometric.service";
+import * as LocalAuthentication from "expo-local-authentication";
+import * as IntentLauncher from "expo-intent-launcher";
+import { AppState } from "react-native";
+import { SecurityLevel } from "expo-local-authentication";
 
 const AppAuthGate = ({ children }: any) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [secureLock, setSecureLock] = useState(true);
 
   const verifySecurity = async () => {
-    const level =
-        await LocalAuthentication.getEnrolledLevelAsync();
+    const level = await LocalAuthentication.getEnrolledLevelAsync();
+
+    if (level === SecurityLevel.NONE) {
+      setSecureLock(false);
+      return;
+    }
+
+    setSecureLock(true);
 
     /**
-     * Device has NO secure lock
+     * Retry authentication until success
      */
-    if (level === SecurityLevel.NONE) {
-        setSecureLock(false);
-        return;
-    }
-    
-    setSecureLock(true);    
-  
-    const success = await authenticateUser();
-  
-    if (success) {
-      setAuthenticated(true);
+    let authenticated = false;
+
+    while (!authenticated) {
+      const success = await authenticateUser();
+
+      if (success) {
+        authenticated = true;
+        setAuthenticated(true);
+      }
     }
   };
 
   useEffect(() => {
     verifySecurity();
-  
-    const subscription = AppState.addEventListener(
-      'change',
-      state => {
-        if (state === 'active') {
-          verifySecurity();
-        }
+
+    const subscription = AppState.addEventListener("change", (state) => {
+      if (state === "active") {
+        verifySecurity();
       }
-    );
-  
+    });
+
     return () => {
       subscription.remove();
     };
@@ -56,8 +57,8 @@ const AppAuthGate = ({ children }: any) => {
       <View
         style={{
           flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
+          alignItems: "center",
+          justifyContent: "center",
           padding: 20,
         }}
       >
@@ -68,9 +69,9 @@ const AppAuthGate = ({ children }: any) => {
         <Button
           title="Go to Security Settings"
           onPress={() => {
-            if (Platform.OS === 'android') {
+            if (Platform.OS === "android") {
               IntentLauncher.startActivityAsync(
-                IntentLauncher.ActivityAction.SECURITY_SETTINGS
+                IntentLauncher.ActivityAction.SECURITY_SETTINGS,
               );
             }
           }}
@@ -84,8 +85,8 @@ const AppAuthGate = ({ children }: any) => {
       <View
         style={{
           flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
         <ActivityIndicator size="large" />
