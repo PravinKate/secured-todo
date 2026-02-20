@@ -1,11 +1,11 @@
-📝 Secured TODO App – React Native (Bare) + Expo Local Authentication
+# Secured TODO App – React Native (Bare) + Expo Local Authentication
 
-📌 Overview
+# Overview
 This project implements a secured TODO list application using a Bare React Native + Expo workflow, where all critical state mutations (Add / Update / Delete) are protected using device-level authentication.
 
 Authentication is enforced using the Expo Local Authentication module, ensuring that users must verify their identity before modifying the TODO list.
 
-🔐 Authentication Strategy
+# Authentication Strategy
 All TODO mutations are protected using:
 - Biometric Authentication (Fingerprint / Face)
 - Device Credentials (PIN / Pattern / Password fallback)
@@ -19,7 +19,7 @@ Mutation Flow:
 UI -> Secure Service -> Auth Guard -> Redux Dispatch -> Reducer Mutation
 This approach ensures enterprise-grade mutation protection.
 
-🧱 Architecture
+# Architecture
 The application follows a Feature-First Modular Architecture with clear separation of concerns:
 
 ```text
@@ -47,7 +47,7 @@ src
 | Reducer | Pure state mutation          |
 | Storage | Secure encrypted persistence |
 
-🗂 State Management
+# State Management
 Redux Toolkit is used for:
 - Predictable mutation flow
 - Scalable state management
@@ -55,7 +55,7 @@ Redux Toolkit is used for:
 - Testable async logic
 Reducers are kept pure with all side effects handled in the service layer.
 
-🔒 Secure Persistence
+# Secure Persistence
 TODOs are securely persisted using: **expo-secure-store**
 
 This ensures:
@@ -67,7 +67,7 @@ Persistence Flow:
 Redux State -> Serialize -> SecureStore
 App Launch -> Load -> Rehydrate Redux
 
-🧪 Unit Testing
+# Unit Testing
 Unit tests are implemented using:
 - **Jest**
 - **jest-expo**
@@ -80,7 +80,7 @@ The authentication service is mocked during testing to:
 Tested:
 Auth-protected mutation service
 
-📦 Third Party Modules Used
+# Third Party Modules Used
 | Module                    | Purpose                     |
 | ------------------------- | --------------------------- |
 | expo-local-authentication | Device-level authentication |
@@ -89,7 +89,7 @@ Auth-protected mutation service
 | react-navigation          | Navigation                  |
 | jest-expo                 | Unit testing                |
 
-🚀 Running the Project
+# Running the Project
 
 Install dependencies: **npm install**
 
@@ -97,7 +97,7 @@ Run Android: **npx expo start**
 
 Run Tests: **npm test**
 
-📌 Notes
+# Notes
 Device-level authentication supports both biometric verification and device credentials fallback, ensuring compatibility across devices without biometric enrollment.
 
 **Screenshot**: 
