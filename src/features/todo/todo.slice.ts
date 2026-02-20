@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Todo } from './todo.types';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Todo } from "./todo.types";
 
 /**
  * Feature State
@@ -19,10 +19,10 @@ const initialState: TodoState = {
  * Pure Slice
  * NOTE:
  * No authentication logic here.
- * Reducers must remain pure functions.
+ * To keep Reducers as pure functions.
  */
 const todoSlice = createSlice({
-  name: 'todo',
+  name: "todo",
   initialState,
   reducers: {
     addTodo(state, action: PayloadAction<Todo>) {
@@ -30,23 +30,18 @@ const todoSlice = createSlice({
     },
 
     deleteTodo(state, action: PayloadAction<string>) {
-      state.todos = state.todos.filter(
-        todo => todo.id !== action.payload
-      );
+      state.todos = state.todos.filter((todo) => todo.id !== action.payload);
     },
 
     rehydrateTodos(state, action: PayloadAction<Todo[]>) {
       state.todos = action.payload;
     },
 
-    updateTodo(
-      state,
-      action: PayloadAction<{ id: string; title: string }>
-    ) {
+    updateTodo(state, action: PayloadAction<{ id: string; title: string }>) {
       const index = state.todos.findIndex(
-        todo => todo.id === action.payload.id
+        (todo) => todo.id === action.payload.id,
       );
-    
+
       if (index !== -1) {
         state.todos[index].title = action.payload.title;
       }
@@ -54,7 +49,8 @@ const todoSlice = createSlice({
   },
 });
 
-export const { addTodo, deleteTodo, updateTodo, rehydrateTodos } = todoSlice.actions;
+export const { addTodo, deleteTodo, updateTodo, rehydrateTodos } =
+  todoSlice.actions;
 
 /**
  * Default Reducer Export

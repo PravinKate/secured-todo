@@ -5,8 +5,6 @@ import * as LocalAuthentication from "expo-local-authentication";
  * Supports:
  *  - Biometrics (Fingerprint / Face)
  *  - Device Credentials (PIN / Pattern / Password)
- *
- * This is enterprise-safe and works on emulator as well.
  */
 export const authenticateUser = async (): Promise<boolean> => {
   try {
@@ -18,10 +16,6 @@ export const authenticateUser = async (): Promise<boolean> => {
        * when biometric is unavailable.
        */
       disableDeviceFallback: false,
-
-      /**
-       * REQUIRED for Android PIN auth
-       */
       cancelLabel: "Cancel",
     });
 

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   View,
   Text,
-  Button,
   TextInput,
   FlatList,
   TouchableOpacity,
@@ -54,7 +53,7 @@ const TodoListScreen = () => {
   };
 
   return (
-    <View style={{ flex: 1, padding: 20, backgroundColor: "#f5f5f5" }}>
+    <View style={styles.mainContainer}>
       <View style={styles.inputContainer}>
         <MaterialIcons
           name="task-alt"
@@ -72,16 +71,7 @@ const TodoListScreen = () => {
         />
       </View>
 
-      <TouchableOpacity
-        onPress={handleAdd}
-        style={{
-          backgroundColor: "#2196F3",
-          padding: 12,
-          alignItems: "center",
-          borderRadius: 8,
-          marginBottom: 10,
-        }}
-      >
+      <TouchableOpacity onPress={handleAdd} style={styles.addButton}>
         <MaterialIcons
           name={editingId ? "check" : "add"}
           size={24}
@@ -93,19 +83,7 @@ const TodoListScreen = () => {
         data={todos}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-              backgroundColor: "#fff",
-              padding: 15,
-              marginTop: 10,
-              marginHorizontal: 1,
-              borderRadius: 10,
-              elevation: 3,
-            }}
-          >
+          <View style={styles.todoItem}>
             <Text>{item.title}</Text>
             <View style={{ flexDirection: "row" }}>
               <TouchableOpacity
@@ -139,6 +117,12 @@ const TodoListScreen = () => {
 export default TodoListScreen;
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: "#f5f5f5",
+  },
+
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -154,5 +138,25 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 16,
     color: "#333",
+  },
+
+  addButton: {
+    backgroundColor: "#2196F3",
+    padding: 12,
+    alignItems: "center",
+    borderRadius: 8,
+    marginBottom: 10,
+  },
+
+  todoItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    padding: 15,
+    marginTop: 10,
+    marginHorizontal: 1,
+    borderRadius: 10,
+    elevation: 3,
   },
 });
