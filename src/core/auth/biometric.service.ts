@@ -1,4 +1,4 @@
-import * as LocalAuthentication from 'expo-local-authentication';
+import * as LocalAuthentication from "expo-local-authentication";
 
 /**
  * Handles all biometric authentication logic.
@@ -45,7 +45,7 @@ import * as LocalAuthentication from 'expo-local-authentication';
 export const authenticateUser = async (): Promise<boolean> => {
   try {
     const result = await LocalAuthentication.authenticateAsync({
-      promptMessage: 'Authenticate to modify your TODOs',
+      promptMessage: "Authenticate to proceed",
 
       /**
        * Allows PIN / Pattern / Password fallback
@@ -56,7 +56,7 @@ export const authenticateUser = async (): Promise<boolean> => {
       /**
        * REQUIRED for Android PIN auth
        */
-      cancelLabel: 'Cancel',
+      cancelLabel: "Cancel",
     });
 
     return result.success;
